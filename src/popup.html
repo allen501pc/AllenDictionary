@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>艾倫查字典</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <!-- JavaScript and HTML must be in separate files for security. -->
+  </head>
+  <body>
+  <div>
+  <div style="padding-top:2px;padding-bottom:2px;font-size:16px;font-weight:bold;"><img width="36px" height="36px" src="icon.png" alt="logo" />艾倫查字典
+  <!-- 加入查找的Button  -->
+  <button id="buttonOfRecords" style="background-color:light-gray;color:red;">歷史記錄</button></div>
+  <div style="border:#0066FF 1px solid;">
+  <span style="font-size:16px;">請輸入您要查詢的英文單字：</span>
+  <input type="text" id="keyword" style="border-color:#FFCC33;" value="" autofocus />
+  <button id="button" style="background-color:gray;color:yellow;">查詢</button>
+  </div>
+  </div>
+  <div id='spell_hint' style='font-style:italic;font-size:12px;display:none;color:red;'>請問您要找的是不是這個單字？</div>
+  <div id='has_been_found' style='font-size:12px;display:none;color:red;'>這單字你之前查過了，下次請好好記住！:)</div>
+  <div id="word" style="font-size:18px;font-weight:bold;"></div>
+  <div id="searched_content" style="width:350px;max-height:200px;overflow:auto;">
+  </div>
+  <div style="text-align:right;padding-right:12px;">
+  <font style="color:green;font-size:10px;">Version：1.0</font>&nbsp;&nbsp;<font style="color:blue;font-size:10px;">Author:<a href='http://blog.allenworkspace.net' target='new'>Jyun-Yao Huang</a>&nbsp;(allen501pc@gmail.com)</font> 
+  </div>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="search.js"></script>
+  </body>
+</html>

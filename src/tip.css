@@ -1,0 +1,36 @@
+﻿.dictionary_tooltip{
+	margin:8px;
+	padding:8px;
+	border:1px solid blue;
+	background-color:white;
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	z-index: 999999;
+	text-align:left;	
+}
+.dictionary_tooltip img{
+	margin-top:0px;
+	padding-top:0px;
+}
+.dictionary_tooltip .header {
+	height: 18px;
+	width:100%;
+	font-size: 10px;
+}
+
+.dictionary_content {
+	max-height: 150px;	
+	max-width: 180px;
+	overflow:auto;
+}
+.close_dictionary_tooltip{
+	cursor: pointer;
+	padding-right:3px;
+	padding-top:1px;
+	position:absolute;
+	right:8px;
+	top:2px;
+	width:12px;
+	height:12px;
+}

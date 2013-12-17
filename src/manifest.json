@@ -1,0 +1,31 @@
+{
+  "name": "艾倫查字典",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "簡易且方便查詢單字小工具, 作者：Jyun-Yao Huang(http://blog.allenworkspace.net , http://www.allenworkspace.net)。",
+  "browser_action": {
+    "default_icon": "icon.png",
+	"default_popup": "popup.html" 	
+  },
+  "web_accessible_resources": ["icon.png","icon-small.png"],
+  "icons":{
+	"16":"icon-small.png",
+	"48":"icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],      
+      "js": ["grab_event.js","jquery.js"],
+	  "css": ["tip.css"],
+	  "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+	"http://*/*",
+	"https://*/*",
+    "http://tw.dictionary.yahoo.com/","contextMenus","webRequest","webNavigation","tabs","notifications","storage","unlimitedStorage" 
+  ],
+  "background":{
+	"scripts":["jquery.js","background.js"]
+  }
+}
