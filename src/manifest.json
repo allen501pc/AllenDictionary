@@ -15,17 +15,16 @@
   "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*"],      
-      "js": ["grab_event.js","jquery.js"],
+      "js": ["js/grab_event.js","js/jquery.js"],
 	  "css": ["tip.css"],
 	  "run_at": "document_start"
     }
   ],
   "permissions": [
 	"http://*/*",
-	"https://*/*",
-    "http://tw.dictionary.yahoo.com/","contextMenus","webRequest","webNavigation","tabs","notifications","storage","unlimitedStorage" 
+	"https://*/*","contextMenus","webRequest","webNavigation","tabs","notifications","storage","unlimitedStorage" 
   ],
   "background":{
-	"scripts":["jquery.js","background.js"]
+	"scripts":["js/jquery.js","js/background.js"]
   }
 }
