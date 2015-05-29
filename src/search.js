@@ -59,28 +59,26 @@ function show_result()
     
 	$("#keyword").select(); // 把Key in 的word全選.
 	
-        var myResult = req.responseText;
-        var content1 = $(myResult).find(".proun_wrapper"); // 尋找音標
-        var content2 = $(myResult).find("ul.explanation_wrapper"); // 尋找查到的單字內容.
-        var audio_content = $(myResult).find(".proun_sound");
-        audio_content.val("發音");
+        var myResult = req.responseText;        				
+		var content1 = $(myResult).find("#pronunciation_pos"); // 音標.  	
+		var voice = $(myResult).find("#proun_sound"); // 音標聲音按鈕	
+		var content2 = $(myResult).find(".searchCenterMiddle > li")[1]; // 解釋
+		var other = $(myResult).find(".searchCenterMiddle > li").last();
+        //var content2 = $(myResult).find("ul.explanation_wrapper"); // 尋找查到的單字內容.                
         
 	$("#word").html(""); // 初始單字內容
 	// Version: 1.0.0 
 	// 已查詢過的單字提示
 	$("#has_been_found").css("display","none");
-	var same_words = $(myResult).find("h5").find("#variation").parent().next(); // 同義字
-		if(content2.html()!=null && content2.html() !="")  // 若查到單字內容，將資料輸出。
+	var synonym = $(myResult).find(".searchCenterMiddle").find("#synonyms").parent().parent().parent().parent(); // 同義字
+
+	var antonym = $(myResult).find(".searchCenterMiddle").find("#antonyms").parent().parent().parent().parent(); // 反義字
+	var variation = $(myResult).find(".searchCenterMiddle").find("#variation").parent().parent().parent().parent();  // 動詞變化
+		if($(content2).html()!=null && $(content2).html() !="")  // 若查到單字內容，將資料輸出。
 		{			
 			// 找到的單字.
-			var word= $(myResult).find(".title_term").find(".yschttl").text();
-			// 幫找到的單字word，標記紅色
-			content2.find("samp").find("b").wrap("<span style='color:red;' />");
-			// 幫找到的例句，進行斷行
-			content2.find("samp").each(function (){
-			    var $obj = $(this);
-			    $obj.replaceWith($("<div>"+$obj.html()+"</div>"));
-			});			
+			var word= $(myResult).find("#term")[0];
+			word = $(word).text();
 			
 			if(word != document.getElementById("keyword").value) // 如果找到的單字跟輸入的不一樣，則跳出Hint.
 			{								
@@ -104,29 +102,35 @@ function show_result()
 				// 資料儲存成功                       
 			};	
 			
+			var output = "";
+			if(content1.length != 0) {
+					output = output + "<font style='color:blue;'>音標:</font>"+content1.text() ;
+			}
+			// 若沒有變化形
+			if(variation.length != 0) {
+				output = output + $(variation).html();				
+			}
+			if(synonym.length != 0) {
+				output = output + $(synonym).html();				
+			}	
+			if(antonym.length != 0 ) {
+				output = output + $(antonym).html();
+			}
+			if(content2.length != 0 ) {
+				$(content2).find("*").removeAttr("style");
+				$(content2).find("*").removeAttr("class");		
+				output = output + $(content2).html();
+			}
 			
-			if(content1.text()!="") // 若有音標
-			{	
-				// 若沒有變化形
-				if(same_words.html()==null)
-				{
-					$("#searched_content").html("<font style='color:blue;'>音標:</font>"+content1.text() + '<div style="display:inline-block;width:80px;height:21px;">' + audio_content.html() + '</div>' +content2.html());				
-				}
-				else
-					$("#searched_content").html("<font style='color:blue;'>音標:</font>"+content1.text() + '<div style="display:inline-block;width:80px;height:21px;">' + audio_content.html() + '</div>' +"<div style='color:red;'>變化形</div>"+same_words.html()+content2.html());				
+			if(other.length != 0) {
+				$(other).find("*").removeAttr("style");				
+				$(other).find("*").removeAttr("class");				
+				output = output + $(other).html();
 			}
-			else // 若無音標，則只有加入單字翻譯內容。
-			{
-				//若沒有變化形
-				if(same_words.html()==null)
-				{
-					$("#searched_content").html(content2.html());
-				}
-				else
-					$("#searched_content").html("<div style='color:red;'>變化形</div>"+same_words.html()+content2.html());				
-			}
+			$("#searched_content").html(output);
+			
 			// 詞性標註字詞大小
-			$("#searched_content").find("h5").css("font-size","14px");
+			// $("#searched_content").find("h5").css("font-size","14px");
 		}
 		else // 查無此翻譯，則秀出提醒.
 		{
@@ -163,7 +167,7 @@ function do_search()
     
     req.open(
         "GET",
-        "http://tw.dictionary.search.yahoo.com/search?p=" +  document.getElementById("keyword").value
+        "http://tw.dictionary.search.yahoo.com/search?fr2=dict&p=" +  document.getElementById("keyword").value
         ,false);
     
     req.onreadystatechange = function() {

@@ -1,6 +1,6 @@
 {
   "name": "艾倫查字典",
-  "version": "1.0",
+  "version": "1.2",
   "manifest_version": 2,
   "description": "簡易且方便查詢單字小工具, 作者：Jyun-Yao Huang(http://blog.allenworkspace.net , http://www.allenworkspace.net)。",
   "browser_action": {
@@ -23,7 +23,7 @@
   "permissions": [
 	"http://*/*",
 	"https://*/*",
-    "http://tw.dictionary.yahoo.com/","contextMenus","webRequest","webNavigation","tabs","notifications","storage","unlimitedStorage" 
+    "http://tw.dictionary.search.yahoo.com/","contextMenus","webRequest","webNavigation","tabs","notifications","storage","unlimitedStorage" 
   ],
   "background":{
 	"scripts":["jquery.js","background.js"]

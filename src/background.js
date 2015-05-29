@@ -53,12 +53,15 @@ function notif()
 function fetch_result()
 {
     var myResult = req.responseText;	
-    var content1 = $(myResult).find(".proun_wrapper").text(); // 音標.    
-	
-	// var content2 = $(myResult).find("#details-panel").find(".bd .caption,.bd .interpret").text(); // 只有單字解釋.
-	var content2 = "";
+    var content1 = $(myResult).find("#pronunciation_pos"); // 音標. 
+	var content2 = $(myResult).find(".searchCenterMiddle > li")[1]; // 解釋	
+	var other = $(myResult).find(".searchCenterMiddle > li").last();
+	var synonym = $(myResult).find(".searchCenterMiddle").find("#synonyms").parent().parent().parent().parent(); // 同義字
+	var antonym = $(myResult).find(".searchCenterMiddle").find("#antonyms").parent().parent().parent().parent(); // 反義字
+	var variation = $(myResult).find(".searchCenterMiddle").find("#variation").parent().parent().parent().parent();  // 動詞變化
 	var isFirst = true;
 	var isListOfFoundExplanation= false;
+	/*
 	$(myResult).find(".result_cluster_first").find(".explanation_pos_wrapper").each(function() {
 		if($(this).find(".explanation_group_hd").html() !=null)
 		{
@@ -80,16 +83,46 @@ function fetch_result()
 		}
 		
 	}); // 只有單字解釋
+	
 	if(!isListOfFoundExplanation)
 	{
 	    content2 += $(myResult).find(".result_cluster_first").find(".explanation_pos_wrapper").find(".explanation_ol").html();
 	}
-
-	background_search_result = content2;
+	*/
+	var output = "";
+			if(content1.length != 0) {
+					output = output + "<font style='color:blue;'>音標:</font>"+content1.text() ;
+			}
+			// 若沒有變化形
+			if( variation.length != 0 ) {
+				output = output + $(variation).html();				
+			}
+			if( synonym.length != 0 ) {
+				output = output + $(synonym).html();				
+			}	
+			if( antonym.length != 0 ) {
+				output = output + $(antonym).html();
+			}
+			if( content2.length != 0 ) {
+				$(content2).find("*").removeAttr("style");
+				$(content2).find("*").removeAttr("class");				
+				output = output + $(content2).html();
+			}
+			
+			if( other.length != 0 ) {
+				$(other).find("*").removeAttr("style");				
+				$(other).find("*").removeAttr("class");				
+				output = output + $(other).html();
+			}
+			
+	
+	background_search_result = output;
 	if(background_search_result!="" && background_search_result!=null) // 若查到單字解釋，則Assign查到的單字.
 	{
 		// 找到的單字
-		var found_word= $(myResult).find(".title_term").find(".yschttl").text();
+		var found_word= $(myResult).find("#term")[0];
+		found_word = $(found_word).text();
+		
 		// 如果查到的單字跟輸入的不一樣，則跳出提示。
 		if(found_word!=null && found_word!="" && background_search_keyword != found_word)
 		{
@@ -97,11 +130,6 @@ function fetch_result()
 		}
 		else
 			background_search_keyword = ("<b>"+found_word +"</b><br>");				
-	}
-	
-	if(content1!="") // 若有音標.
-	{		
-		background_search_keyword += "音標:"+content1+"<br />";
 	}
 	
 	var messageData = "";
@@ -138,10 +166,10 @@ function searchOnClick(info, tab) {
  * Output: none.
  */
 function background_search()
-{
+{	
     req.open(
         "GET",
-	"http://tw.dictionary.search.yahoo.com/search?p=" +  background_search_keyword      
+	"http://tw.dictionary.search.yahoo.com/search?fr2=dict&p=" +  background_search_keyword      
         ,false);
     req.onload = fetch_result;    
     req.send(null);
